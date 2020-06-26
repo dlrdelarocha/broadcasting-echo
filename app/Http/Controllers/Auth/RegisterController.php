@@ -67,7 +67,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'avatar' => 'https://i.picsum.photos/id/'. random_int(1,1000).'/80/80.jpg',
+            'avatar' => sprintf('https://picsum.photos/id/%s/80/80.jpg', rand(1, 100)),
             'password' => Hash::make($data['password']),
             'api_token' => md5($data['password']),
         ]);

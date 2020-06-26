@@ -16,7 +16,7 @@
         <hr/>
 
         <h3>Comments:</h3>
-        <div style="margin-bottom:50px;" v-if="user.length">
+        <div style="margin-bottom:50px;" v-if="user.length !== 0">
             <textarea class="form-control" rows="3" name="body" placeholder="Leave a comment" v-model="commentBox" ></textarea>
             <button class="btn btn-success" style="margin-top:10px" @click.prevent="postComment">Send</button>
         </div>
