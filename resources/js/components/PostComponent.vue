@@ -16,12 +16,12 @@
         <hr/>
 
         <h3>Comments:</h3>
-        <div style="margin-bottom:50px;" v-if="user">
+        <div style="margin-bottom:50px;" v-if="user.length">
             <textarea class="form-control" rows="3" name="body" placeholder="Leave a comment" v-model="commentBox" ></textarea>
             <button class="btn btn-success" style="margin-top:10px" @click.prevent="postComment">Send</button>
         </div>
         <div v-else>
-            <h4>You must be logged in to submit a comment!</h4> <a href="/login">Sign In</a>
+            <h4>You must be logged in to submit a comment!</h4>
         </div>
 
         <div class="media" style="margin-top:20px;" v-for="comment in comments">
@@ -56,6 +56,7 @@
             }
         },
         mounted() {
+            console.log(this.user);
             this.getComments();
         },
         methods: {
