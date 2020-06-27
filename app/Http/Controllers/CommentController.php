@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Events\CommentSent;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,8 @@ class CommentController extends Controller
             'body' => $request->body,
             'user_id' => auth()->id()
         ])->load('user');
+
+        event(new CommentSent($comment));
 
         return response()->json($comment);
     }

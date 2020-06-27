@@ -58,6 +58,7 @@
         mounted() {
             console.log(this.user);
             this.getComments();
+            this.listener();
         },
         methods: {
             getComments() {
@@ -81,6 +82,12 @@
                 .catch((error) => {
                     console.log(error);
                 })
+            },
+            listener() {
+                Event.channel('post-' + this.post.id)
+                    .listener('CommentSent', (comment) => {
+                        this.comments.unshift(comment);
+                    })
             }
         }
     }
