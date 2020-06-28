@@ -82,13 +82,13 @@
                 .catch((error) => {
                     console.log(error);
                 })
+            },
+            listener() {
+                Echo.channel('post-' + this.post.id)
+                    .listen('CommentSent', (comment) => {
+                        this.comments.unshift(comment);
+                    })
             }
-        },
-        listener() {
-            Echo.channel('post-' + this.post.id)
-                .listen('CommentSent', (comment) => {
-                    this.comments.unshift(comment);
-                })
         }
     }
 </script>
