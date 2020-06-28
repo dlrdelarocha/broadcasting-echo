@@ -84,7 +84,7 @@
                 })
             },
             listener() {
-                Echo.channel('post-' + this.post.id)
+                Echo.private('post-' + this.post.id)
                     .listen('CommentSent', (comment) => {
                         this.comments.unshift(comment);
                     })

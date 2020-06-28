@@ -25,7 +25,7 @@ class CommentController extends Controller
             'user_id' => auth()->id()
         ])->load('user');
 
-        event(new CommentSent($comment));
+        broadcast(new CommentSent($comment))->toOthers();
 
         return response()->json($comment);
     }
