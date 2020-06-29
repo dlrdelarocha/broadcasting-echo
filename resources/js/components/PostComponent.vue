@@ -17,12 +17,13 @@
 
         <h3>Comments:</h3>
         <div style="margin-bottom:50px;" v-if="user.length !== 0">
-            <textarea class="form-control" rows="3" name="body" placeholder="Leave a comment" v-model="commentBox" ></textarea>
+            <textarea class="form-control" rows="3" name="body" placeholder="Leave a comment" v-model="commentBox" @keydown="typingComment"></textarea>
             <button class="btn btn-success" style="margin-top:10px" @click.prevent="postComment">Send</button>
         </div>
         <div v-else>
             <h4>You must be logged in to submit a comment!</h4>
         </div>
+        <span v-show="userTyping">{{userTyping.name}} is typing ..</span>
 
         <div class="media" style="margin-top:20px;" v-for="comment in comments">
             <div class="media-left">
@@ -52,7 +53,8 @@
         data() {
             return {
                 comments: {},
-                commentBox: ''
+                commentBox: '',
+                userTyping: false
             }
         },
         mounted() {
@@ -84,10 +86,31 @@
                 })
             },
             listener() {
-                Echo.private('post-' + this.post.id)
+                Echo.join('post-' + this.post.id)
+                    .here((users) => {
+                        console.log('Here');
+                        console.log(users);
+                    })
+                    .joining((user) => {
+                        console.log('Joining');
+                        console.log(user);
+                    })
+                    .leaving((user) => {
+                        console.log('Leaving');
+                        console.log(user);
+                    })
                     .listen('CommentSent', (comment) => {
                         this.comments.unshift(comment);
                     })
+                    .listenForWhisper('typing', (user) => {
+                        this.userTyping = user;
+
+                        setTimeout(() => this.userTyping = false, 2000);
+                    })
+            },
+            typingComment() {
+                Echo.join('post-' + this.post.id)
+                    .whisper('typing', this.user)
             }
         }
     }

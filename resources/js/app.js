@@ -21,6 +21,11 @@ window.Vue = require('vue');
 
 Vue.component('post', require('./components/PostComponent.vue').default);
 
+
+//This flags are to avoid Vue messages in Chrome Console
+Vue.config.devtools = false;
+Vue.config.productionTip = false;
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
